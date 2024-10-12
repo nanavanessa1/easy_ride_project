@@ -60,6 +60,8 @@ import {
 import tw from "tailwind-react-native-classnames";
 import { Icon } from "react-native-elements";
 import { useNavigation } from "@react-navigation/native";
+import { useSelector } from "react-redux";
+import { SelectOrigin } from "../slices/navSlice";
 
 const data = [
   {
@@ -78,6 +80,7 @@ const data = [
 
 const NavOptions = () => {
   const navigation = useNavigation();
+  const  origin = useSelector(SelectOrigin);
 
   return (
     <FlatList
@@ -88,8 +91,10 @@ const NavOptions = () => {
         <Pressable
           onPress={() => navigation.navigate(item.screen)}
           style={tw`p-2 pl-6 pb-8 pt-4 bg-gray-200 m-2 w-40`}
+          disabled={!origin}
         >
-          <View>
+        {/* rends les boutons invisible tant que l'on n'entre pas sa destination */}
+          <View style ={tw`${!origin && "opacity-20"}`}> 
             <Image
               style={{ width: 120, height: 120, resizeMode: "contain" }}
               source={{ uri: item.image }}

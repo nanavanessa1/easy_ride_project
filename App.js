@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View,KeyboardAvoidingView, Platform } from 'react-native';
 import 'react-native-get-random-values';
 
 //TODOLISTSET UP REDUX
@@ -14,6 +14,7 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { NavigationContainer } from '@react-navigation/native';
 
 
+
 export default function App() {
 
   const Stack = createStackNavigator(); // permets de faire les navigation swipe back sur mon android
@@ -21,6 +22,13 @@ export default function App() {
     <Provider store={store}>
       <NavigationContainer>
       <SafeAreaProvider>
+        <KeyboardAvoidingView 
+        behavior={Platform.OS=="android" ? "padding" : "height"}
+        style = {{flex:1}}
+        keyboardVerticalOffset={Platform.OS ==="android" }
+        
+        > 
+          {/* permets une meilleur utilisation clientele au niveau du clavier */}
         <Stack.Navigator>
          <Stack.Screen
          name="HomeScreen"
@@ -36,6 +44,8 @@ export default function App() {
           
          }}/>
         </Stack.Navigator>
+        </KeyboardAvoidingView>
+        
       
       </SafeAreaProvider>
       </NavigationContainer>
@@ -46,11 +56,4 @@ export default function App() {
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+
