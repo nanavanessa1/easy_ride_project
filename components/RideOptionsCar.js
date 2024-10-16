@@ -2,14 +2,13 @@ import React, { useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { FlatList, TouchableOpacity } from "react-native-gesture-handler";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Icon } from "react-native-elements";
+import { Icon, Image } from "react-native-elements";
 import tw from "tailwind-react-native-classnames";
-import { Image } from "react-native-elements";
 import { useNavigation } from "@react-navigation/native";
 import { useSelector } from "react-redux";
 import { SelectTravelTimeInformation } from "../slices/navSlice";
 
-// Crée la base de données
+// Base de données simulée des options de voiture
 const data = [
   {
     id: "Uber-x-123",
@@ -24,7 +23,8 @@ const data = [
     image: "https://links.papareact.com/5w8",
   },
 ];
-//charge rate 
+
+// Taux de surcharge
 const SURGE_CHARGE_RATE = 1.5;
 
 const RideOptionsCar = () => {
@@ -42,10 +42,9 @@ const RideOptionsCar = () => {
           <Icon name="chevron-left" type="fontawesome" />
         </TouchableOpacity>
 
-        {/* Texte pour le titre */}
-        <Text style={tw`text-center py-5 text-xl`}>Select a Ride - {
-          travelTimeInformation?.distance.text
-          }</Text>
+        <Text style={tw`text-center py-5 text-xl`}>
+          Select a Ride - {travelTimeInformation?.distance.text}
+        </Text>
       </View>
 
       <FlatList
@@ -65,31 +64,26 @@ const RideOptionsCar = () => {
               source={{ uri: item.image }}
             />
             <View style={tw`-ml-6`}>
-              {/* Texte pour le titre de l'option */}
               <Text style={tw`text-xl font-semibold`}>{item.title}</Text>
-              {/* Texte pour le temps de trajet */}
               <Text>{travelTimeInformation?.duration.text} Travel time</Text>
             </View>
-            {/* Texte pour le prix */}
-            {/* pour les prix */}
             <Text style={tw`text-xl`}>
-              
-              {new Intl.NumberFormat('en-gb',{
-                style:'currency',
-                currency:'GBP'
+              {new Intl.NumberFormat("en-gb", {
+                style: "currency",
+                currency: "GBP",
               }).format(
-                (travelTimeInformation?.duration.value * SURGE_CHARGE_RATE*multiplier)/100
+                (travelTimeInformation?.duration.value * SURGE_CHARGE_RATE * item.multiplier) / 100
               )}
             </Text>
-      
+          </TouchableOpacity>
+        )}
+      />
 
       <View>
-        {/* Bouton pour choisir l'option */}
         <TouchableOpacity
           disabled={!selected}
           style={tw`bg-black py-3 m-3 ${!selected && "bg-gray-300"}`}
         >
-          {/* Correction ici : l'affichage du texte doit être géré correctement */}
           <Text style={tw`text-white text-center text-xl`}>
             {selected ? `Choose ${selected.title}` : "Choose a ride"}
           </Text>
